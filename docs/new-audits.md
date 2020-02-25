@@ -8,13 +8,33 @@ Lighthouse audits that surface in the report should be:
 - Contribute significantly towards making the mobile web experience better for end users. 
 - Not have a significant impact on our runtime performance or bundle size. 
 - Something that is new, and not something that is already measured by existing audits. 
-- Important for our strategic goals as a product.
-- Measurable (especially for performance audits) or have clear pass/fail states. 
+- Measurable (especially for performance audits) or have clear pass/fail states.
+- Actionable - when failing, specific advice should be given. If the failure can be tied to a specific resource (a DOM element, script, line of code), use the [appropriate detail type](https://github.com/GoogleChrome/lighthouse/blob/master/types/audit-details.d.ts). If multiple failures can occur for a page, return a table.
 - Not use 3rd party APIs for completing the audit check. 
+
+## Actionable
+
+1. When failing, specific advice should be given. If an audit can fail in multiple ways, each way should have a specific error message.
+1. If the failure can be applied to a specific resource, use the appropriate detail type (see subsection).
+1. If multiple failures can occur on a single page, return each (use a table - don't just return a binary score).
+
+## Detail Types
+
+An audit can return a number of different [detail types](https://github.com/GoogleChrome/lighthouse/blob/master/types/audit-details.d.ts).
+
+| detail type             | resource              | notes                                  |
+|-------------------------|-----------------------|----------------------------------------|
+| `'node'`                | DOM element           | set path to a devtoolsNodePath         |
+| `'source-location'`     | Code Network Resource | use to point to specific line, column  |
+| `'code'`                | N/A; freeform         | render in monospace font `like this`   |
+| `'url'`                 | Network Resource      | we will make it a pretty link          |
+| `'thumbnail'`           | Image Resource        | same as above, but we show a thumbnail |
+| `'link'`                | -                     | arbitrary link / url combination       |
+| `'text'|'ms'|'numeric'` | -                     |                                        |
 
 
 ## Process for creating a new audit
-1. Briefly scan the criteria we’ve laid out above. If you think the principles match with your proposed new audit, then proceed! 
+1. Scan the criteria we’ve laid out above. If you think the principles match with your proposed new audit, then proceed! 
 2. Next step is to create an issue on GitHub with answers to the following questions: 
 ```
 #### Provide a basic description of the audit
