@@ -67,9 +67,13 @@ const smokeTests = [{
   expectations: require('./tricky-metrics/expectations.js'),
   config: require('../../../../lighthouse-core/config/perf-config.js'),
 }, {
-  id: 'source-maps',
-  expectations: require('./source-maps/expectations.js'),
-  config: require('./source-maps/source-maps-config.js'),
+  id: 'mixed-content',
+  expectations: require('./mixed-content/mixed-content-expectations.js'),
+  config: require('../../../../lighthouse-core/config/mixed-content-config.js'),
+}, {
+  id: 'legacy-javascript',
+  expectations: require('./legacy-javascript/expectations.js'),
+  config: require('./legacy-javascript/legacy-javascript-config.js'),
 }];
 
 module.exports = smokeTests;
