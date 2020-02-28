@@ -5,6 +5,12 @@
  */
 'use strict';
 
+/**
+ * @fileoverview Fetcher is a utility for making requests within the context of the page.
+ * Requests can circumvent CORS, and so are good for fetching source maps that may be hosted
+ * on a different origin.
+ */
+
 /* global document */
 
 class Fetcher {
@@ -72,10 +78,10 @@ class Fetcher {
    * Fetches any resource in a way that circumvents CORS.
    *
    * @param {string} url
-   * @param {number} timeoutInMs
+   * @param {{timeout: number}} options timeout is in ms
    * @return {Promise<string>}
    */
-  async fetchResource(url, timeoutInMs = 500) {
+  async fetchResource(url, {timeout = 500}) {
     if (!this.driver.isDomainEnabled('Fetch')) {
       throw new Error('Must call `enableRequestInterception` before using fetchResource');
     }
@@ -164,7 +170,7 @@ class Fetcher {
     /** @type {Promise<never>} */
     const timeoutPromise = new Promise((_, reject) => {
       const errorMessage = 'Timed out fetching resource.';
-      timeoutHandle = setTimeout(() => reject(new Error(errorMessage)), timeoutInMs);
+      timeoutHandle = setTimeout(() => reject(new Error(errorMessage)), timeout);
     });
 
     return Promise.race([

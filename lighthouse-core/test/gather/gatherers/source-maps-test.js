@@ -67,7 +67,7 @@ describe('SourceMaps gatherer', () => {
         }
 
         if (fetchError) {
-          throw Object.assign(new Error(), {message: fetchError, __failedInBrowser: true});
+          throw new Error(fetchError);
         }
 
         return map;
