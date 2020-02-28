@@ -93,23 +93,11 @@ class Fetcher {
 
         // The first requestPaused event is for the request stage. Continue it.
         if (!responseStatusCode) {
-          // Remove same-site cookies so we aren't buying stuff on Amazon.
+          // Remove cookies so we aren't buying stuff on Amazon.
           const headers = [];
-          if (event.request.headers['Cookie']) {
-            const {cookies} = await this.driver.sendCommand('Network.getCookies', {urls: [url]});
-            const sameSiteCookiesKeyValueSet = new Set();
-            for (const cookie of cookies) {
-              if (cookie.sameSite !== 'None') {
-                sameSiteCookiesKeyValueSet.add(cookie.name + '=' + cookie.value);
-              }
-            }
-            const strippedCookies = event.request.headers['Cookie']
-              .split(';')
-              .filter(cookieKeyValue => {
-                return !sameSiteCookiesKeyValueSet.has(cookieKeyValue.trim());
-              })
-              .join('; ');
-            headers.push({name: 'Cookie', value: strippedCookies});
+          for (const [key, value] of Object.entries(event.request.headers)) {
+            if (key === 'Cookie') return;
+            headers.push({name: key, value});
           }
 
           this.driver.sendCommand('Fetch.continueRequest', {
