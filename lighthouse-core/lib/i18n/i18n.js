@@ -56,8 +56,12 @@ const UIStrings = {
   displayValueMsSavings: 'Potential savings of {wastedMs, number, milliseconds}\xa0ms',
   /** Label for a column in a data table; entries will be the URL of a web resource */
   columnURL: 'URL',
-  /** Label for a column in a data table; entries will be the size of a web resource in kilobytes. */
+  /** Label for a column in a data table; entries will be the size of something resource (generic). */
   columnSize: 'Size',
+  /** Label for a column in a data table; entries will be the transfer size (on the wire) of a web resource in kilobytes. */
+  columnTransferSize: 'Transfer Size',
+  /** Label for a column in a data table; entries will be the resource size (post-decoding) of a web resource in kilobytes. */
+  columnResourceSize: 'Resource Size',
   /** Label for a column in a data table; entries will be the time to live value of the cache header on a web resource. */
   columnCacheTTL: 'Cache TTL',
   /** Label for a column in a data table; entries will be the number of kilobytes the user could reduce their page by if they implemented the suggestions. */
