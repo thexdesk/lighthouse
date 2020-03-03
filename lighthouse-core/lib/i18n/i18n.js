@@ -59,10 +59,10 @@ const UIStrings = {
   /** Label for a column in a data table; entries will be the size of something resource (generic). */
   columnSize: 'Size',
   /** Label for a column in a data table; entries will be the transfer size (on the wire) of a web resource in kilobytes. */
-  columnTransferSize: 'Transfer Size',
-  /** Label for a column in a data table; entries will be the resource size (post-decoding) of a web resource in kilobytes. */
   columnResourceSize: 'Resource Size',
   /** Label for a column in a data table; entries will be the time to live value of the cache header on a web resource. */
+  columnTransferSize: 'Transfer Size',
+  /** Label for a column in a data table; entries will be the resource size (post-decoding) of a web resource in kilobytes. */
   columnCacheTTL: 'Cache TTL',
   /** Label for a column in a data table; entries will be the number of kilobytes the user could reduce their page by if they implemented the suggestions. */
   columnWastedBytes: 'Potential Savings',
@@ -76,8 +76,6 @@ const UIStrings = {
   columnResourceType: 'Resource Type',
   /** Label for a column in a data table; entries will be the number of network requests done by a webpage. */
   columnRequests: 'Requests',
-  /** Label for a column in a data table; entries will be the number of kilobytes transferred to load a set of files. */
-  columnTransferSize: 'Transfer Size',
   /** Label for a column in a data table; entries will be the names of arbitrary objects, e.g. the name of a Javascript library, or the name of a user defined timing event. */
   columnName: 'Name',
   /** Label for a column in a data table; entries will be how much a predetermined budget has been exeeded by. Depending on the context, this number could represent an excess in quantity or size of network requests, or, an excess in the duration of time that it takes for the page to load.*/
