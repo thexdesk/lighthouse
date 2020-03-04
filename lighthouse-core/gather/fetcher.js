@@ -22,6 +22,7 @@ class Fetcher {
     /** @type {Map<string, (event: LH.Crdp.Fetch.RequestPausedEvent) => void>} */
     this._onRequestPausedHandlers = new Map();
     this._onRequestPaused = this._onRequestPaused.bind(this);
+    this._enabled = false;
   }
 
   /**
@@ -36,20 +37,32 @@ class Fetcher {
    * 3) if multiple commands to continue the same request are sent, protocol errors occur.
    *
    * So instead we have one global `Fetch.enable` / `Fetch.requestPaused` pair, and allow specific
-   * urls to be intercepted via `driver.setOnRequestPausedHandler`.
+   * urls to be intercepted via `driver._setOnRequestPausedHandler`.
    */
   async enableRequestInterception() {
+    if (this._enabled) return;
+
+    this._enabled = true;
     await this.driver.sendCommand('Fetch.enable', {
       patterns: [{requestStage: 'Request'}, {requestStage: 'Response'}],
     });
     await this.driver.on('Fetch.requestPaused', this._onRequestPaused);
   }
 
+  async disableRequestInterception() {
+    if (!this._enabled) return;
+
+    this._enabled = false;
+    await this.driver.off('Fetch.requestPaused', this._onRequestPaused);
+    await this.driver.sendCommand('Fetch.disable');
+    this._onRequestPausedHandlers.clear();
+  }
+
   /**
    * @param {string} url
    * @param {(event: LH.Crdp.Fetch.RequestPausedEvent) => void} handler
    */
-  async setOnRequestPausedHandler(url, handler) {
+  async _setOnRequestPausedHandler(url, handler) {
     this._onRequestPausedHandlers.set(url, handler);
   }
 
@@ -66,12 +79,6 @@ class Fetcher {
     }
   }
 
-  async disableRequestInterception() {
-    await this.driver.off('Fetch.requestPaused', this._onRequestPaused);
-    await this.driver.sendCommand('Fetch.disable');
-    this._onRequestPausedHandlers.clear();
-  }
-
   /**
    * Requires that `driver.enableRequestInterception` has been called.
    *
@@ -82,13 +89,13 @@ class Fetcher {
    * @return {Promise<string>}
    */
   async fetchResource(url, {timeout = 500}) {
-    if (!this.driver.isDomainEnabled('Fetch')) {
+    if (!this._enabled) {
       throw new Error('Must call `enableRequestInterception` before using fetchResource');
     }
 
     /** @type {Promise<string>} */
     const requestInterceptionPromise = new Promise((resolve, reject) => {
-      this.setOnRequestPausedHandler(url, async (event) => {
+      this._setOnRequestPausedHandler(url, async (event) => {
         const {requestId, responseStatusCode} = event;
 
         // The first requestPaused event is for the request stage. Continue it.
