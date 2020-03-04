@@ -37,7 +37,7 @@ class Fetcher {
    * 3) if multiple commands to continue the same request are sent, protocol errors occur.
    *
    * So instead we have one global `Fetch.enable` / `Fetch.requestPaused` pair, and allow specific
-   * urls to be intercepted via `driver._setOnRequestPausedHandler`.
+   * urls to be intercepted via `fetcher._setOnRequestPausedHandler`.
    */
   async enableRequestInterception() {
     if (this._enabled) return;
