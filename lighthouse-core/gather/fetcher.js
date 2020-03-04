@@ -101,11 +101,11 @@ class Fetcher {
         // The first requestPaused event is for the request stage. Continue it.
         if (!responseStatusCode) {
           // Remove cookies so we aren't buying stuff on Amazon.
-          const headers = [];
-          for (const [key, value] of Object.entries(event.request.headers)) {
-            if (key === 'Cookie') return;
-            headers.push({name: key, value});
-          }
+          const headers = Object.entries(event.request.headers)
+            .filter(([name]) => name !== 'Cookie')
+            .map(([name, value]) => {
+              return {name, value};
+            });
 
           this.driver.sendCommand('Fetch.continueRequest', {
             requestId,
