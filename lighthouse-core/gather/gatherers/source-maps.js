@@ -134,8 +134,7 @@ class SourceMaps extends Gatherer {
     await driver.fetcher.enableRequestInterception();
     const eventProcessPromises = this._scriptParsedEvents
       .map((event) => this._retrieveMapFromScriptParsedEvent(driver, event));
-    return Promise.all(eventProcessPromises)
-      .finally(() => driver.fetcher.disableRequestInterception());
+    return Promise.all(eventProcessPromises);
   }
 }
 
