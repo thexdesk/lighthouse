@@ -1332,11 +1332,17 @@
 .lh-table td {
   padding: 8px 6px;
 }
-.lh-table th:first-child {
+.lh-table th:first-child,
+.lh-table td:first-child {
   padding-left: 0;
 }
-.lh-table th:last-child {
+.lh-table th:last-child,
+.lh-table td:last-child {
   padding-right: 0;
+}
+
+.lh-table tr {
+  vertical-align: baseline;
 }
 
 /* Looks unnecessary, but mostly for keeping the <th>s left-aligned */
@@ -1367,6 +1373,10 @@
 
 .lh-table-column--url {
   min-width: 250px;
+}
+
+.lh-table-column--text {
+  min-width: 80px;
 }
 
 /* Keep columns narrow if they follow the URL column */
