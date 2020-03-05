@@ -650,7 +650,8 @@ class GatherRunner {
           isFirstPass = false;
         }
 
-        // Disable fetcher, in case a gatherer enabled it.
+        // Disable fetcher for every pass, in case a gatherer enabled it.
+        // Noop if fetcher was never enabled.
         // This cleanup should be removed once the only usage of
         // fetcher (fetching arbitrary URLs) is replaced by new protocol support.
         await driver.fetcher.disableRequestInterception();
