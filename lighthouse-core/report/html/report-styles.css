@@ -414,8 +414,8 @@
 .lh-node__snippet {
   font-family: var(--report-font-family-monospace);
   color: var(--color-teal-600);
-  font-size: 12px;
-  line-height: 1.5em;
+  font-size: 14px;
+  line-height: 1.25em;
 }
 
 /* Score */
