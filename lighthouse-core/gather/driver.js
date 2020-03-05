@@ -92,6 +92,7 @@ class Driver {
      */
     this._nextProtocolTimeout = DEFAULT_PROTOCOL_TIMEOUT;
 
+    /** @type {Fetcher} */
     this.fetcher = new Fetcher(this);
   }
 
